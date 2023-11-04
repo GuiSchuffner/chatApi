@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -21,7 +22,7 @@ func ConnectToDB() {
 	dbPort := os.Getenv("DB_PORT")
 	dbName := os.Getenv("DB_NAME")
 	dbSllmode := os.Getenv("DB_SSLMODE")
-	config := "host=localhost user=root password=root dbname=root port=5432 sslmode=disable"
+	config := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s", dbHost, dbUser, dbPassword, dbName, dbPort, dbSllmode)
 	DB, err = gorm.Open(postgres.Open(config))
 	if err != nil {
 		log.Panic("Error opening database")
