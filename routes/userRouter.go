@@ -6,8 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UserRoutes(r *gin.Engine) {
-	userRoute := r.Group("/user")
+func UserRoutes(userRoute *gin.RouterGroup) {
 	userRoute.Use(middlewares.JwtMiddleware())
 	userRoute.GET("/personalData", controller.UserData)
 }

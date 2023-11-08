@@ -6,7 +6,7 @@ import (
 
 func Routes() {
 	r := gin.Default()
-	AuthRoutes(r)
-	UserRoutes(r)
+	AuthRoutes(r.Group("/auth"))
+	UserRoutes(r.Group("/user"))
 	r.Run()
 }
