@@ -10,11 +10,11 @@ import (
 )
 
 type authClaim struct {
-	UserId int `json:"user_id"`
+	UserId uint `json:"userId"`
 	jwt.RegisteredClaims
 }
 
-func GenerateToken(userId int) (string, error) {
+func GenerateToken(userId uint) (string, error) {
 	tokenLifeSpanHour, err := strconv.Atoi(os.Getenv("TOKEN_HOUR_EXPIRE"))
 	if err != nil {
 		return "", err
@@ -38,13 +38,14 @@ func VerifyToken(tokenString string) error {
 	return err
 }
 
-func GetUserIdFromToken(tokenString string) (int, error) {
+func GetUserIdFromToken(tokenString string) (uint, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &authClaim{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 		return []byte(os.Getenv("SECRET_KEY")), nil
 	})
+
 	if err != nil {
 		return 0, err
 	}
@@ -53,5 +54,5 @@ func GetUserIdFromToken(tokenString string) (int, error) {
 		return claims.UserId, nil
 	}
 
-	return 0, fmt.Errorf("Invalid token")
+	return 0, fmt.Errorf("invalid token")
 }

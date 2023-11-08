@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/GuiSchuffner/chatApi/database"
-	helper "github.com/GuiSchuffner/chatApi/helpers"
 	"github.com/GuiSchuffner/chatApi/models"
+	helper "github.com/GuiSchuffner/chatApi/utils/helpers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,6 +25,7 @@ func Register(c *gin.Context) {
 	err := c.BindJSON(&input)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, registerResponse{false, "Invalid data"})
+		return
 	}
 
 	newUser := models.User{}

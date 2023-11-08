@@ -4,6 +4,8 @@ go 1.21.3
 
 require gorm.io/driver/postgres v1.5.4
 
+require github.com/joho/godotenv v1.5.1 // indirect
+
 require (
 	github.com/bytedance/sonic v1.10.2 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
