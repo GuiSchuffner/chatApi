@@ -8,6 +8,7 @@ import (
 	"github.com/GuiSchuffner/chatApi/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var (
@@ -27,5 +28,6 @@ func ConnectToDB() {
 	if err != nil {
 		log.Panic("Error opening database")
 	}
+	DB.Logger = DB.Logger.LogMode(logger.Info)
 	DB.AutoMigrate(&models.User{})
 }

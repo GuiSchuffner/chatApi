@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -30,7 +31,15 @@ func GenerateToken(userId uint) (string, error) {
 	return token.SignedString([]byte(os.Getenv("SECRET_KEY")))
 }
 
-func VerifyToken(tokenString string) error {
+func extractToken(bearerToken string) string {
+	if len(strings.Split(bearerToken, " ")) == 2 {
+		return strings.Split(bearerToken, " ")[1]
+	}
+	return ""
+}
+
+func VerifyToken(bearerToken string) error {
+	tokenString := extractToken(bearerToken)
 	_, err := jwt.ParseWithClaims(tokenString, &authClaim{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(os.Getenv("SECRET_KEY")), nil
 	})
@@ -38,7 +47,8 @@ func VerifyToken(tokenString string) error {
 	return err
 }
 
-func GetUserIdFromToken(tokenString string) (uint, error) {
+func GetUserIdFromToken(bearerToken string) (uint, error) {
+	tokenString := extractToken(bearerToken)
 	token, err := jwt.ParseWithClaims(tokenString, &authClaim{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
