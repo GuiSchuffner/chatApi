@@ -9,5 +9,6 @@ import (
 func main() {
 	utils.LoadEnv() // Public .env for this study app
 	database.ConnectToDB()
+	database.InitChatRooms()
 	routes.Routes()
 }

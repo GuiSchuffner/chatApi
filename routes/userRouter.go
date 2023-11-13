@@ -9,4 +9,6 @@ import (
 func UserRoutes(userRoute *gin.RouterGroup) {
 	userRoute.Use(middlewares.JwtMiddleware())
 	userRoute.GET("/personalData", controller.UserData)
+	userRoute.GET("/connectToRoom", controller.Chat)
+	userRoute.GET("/availableRooms", controller.AvailableRooms)
 }
